@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 
 typedef struct island {
-    char *name;
+    char name[80];
     char *opens;
     char *closes;
     struct island *next;
@@ -17,10 +16,10 @@ void display(island *start) {
     }
 }
 
-island *create(char *name) {
+island *create(char name[]) {
     island *i = malloc(sizeof(island));
 
-    i->name = strdup(name);
+    *(i).name = &name;
     i->opens = "09:00";
     i->closes = "17:00";
     i->next = NULL;
