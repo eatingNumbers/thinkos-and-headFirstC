@@ -50,4 +50,3 @@ int main() {
     find(ns_theater);
     find(arts_theater_or_dining);
 }
-
