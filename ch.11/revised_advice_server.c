@@ -61,23 +61,27 @@ int main(int argc, char *argv[]) {
         "You might want to rethink that haircut\r\n"
     };
 
-    int listener_d = socket(PF_INET, SOCK_STREAM, 0);
+    open_listener_socket();
+    /* int listener_d = socket(PF_INET, SOCK_STREAM, 0); */
 
-    struct sockaddr_in name;
-    name.sin_family = PF_INET;
-    name.sin_port = (in_port_t)htons(30000);
-    name.sin_addr.s_addr = htonl(INADDR_ANY);
+    /* struct sockaddr_in name; */
+    /* name.sin_family = PF_INET; */
+    /* name.sin_port = (in_port_t)htons(30000); */
+    /* name.sin_addr.s_addr = htonl(INADDR_ANY); */
 
-    int reuse = 1;
-    if (setsockopt(socket, SOL_SOCKET, SO_REUSEADDR, (char *) &reuse, sizeof(int)) == -1)
-        error("Can't set the reuse option on the socket");
+    bind_to_port(listener_d, 30000);
 
-    int c = bind(socket, (struct sockaddr *) &name, sizeof(name));
-    if (c == -1)
-        error("Can't bind to socket");
+    /* int reuse = 1; */
+    /* if (setsockopt(socket, SOL_SOCKET, SO_REUSEADDR, (char *) &reuse, sizeof(int)) == -1) */
+    /*     error("Can't set the reuse option on the socket"); */
 
-    if (bind(listener_d, (struct sockaddr *) &name, sizeof(name)) == -1)
-        error("Can't bind the port");
+    /* int c = bind(socket, (struct sockaddr *) &name, sizeof(name)); */
+    /* if (c == -1) */
+    /*     error("Can't bind to socket"); */
+
+
+    /* if (bind(listener_d, (struct sockaddr *) &name, sizeof(name)) == -1) */
+    /*     error("Can't bind the port"); */
     
     if (listen(listener_d, 10))
             puts("Waiting for connection");
@@ -87,8 +91,11 @@ int main(int argc, char *argv[]) {
     int connect_d = accept(listener_d, (struct sockaddr *) &client_addr, &address_size);
     char *msg = advice[rand() % 5];
 
-    send(connect_d, msg, strlen(msg), 0);
-    close(connect_d);
+    say(connect_d, msg);
+
+    /* send(connect_d, msg, strlen(msg), 0); */
+    /* close(connect_d); */
+    handle_shutdown(listener_d);
 
     return 0;
 }
